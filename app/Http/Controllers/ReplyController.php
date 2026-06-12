@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class ReplyController extends Controller
 {
-    public function store(Thread $thread){
+    public function store($channel , Thread $thread){
         Log::info($thread);
         $thread->addReply([
             'body'=>request('body'),

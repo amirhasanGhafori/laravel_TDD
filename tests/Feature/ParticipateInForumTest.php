@@ -19,13 +19,13 @@ test('an_unAuthenticated_user_can_not_create_replies', function () {
 
 test('an_authenticated_user_may_participate_in_forum_threads', function () {
 
-    // $this->withoutExceptionHandling();
+    $this->withoutExceptionHandling();
 
     $this->actingAs($user = User::factory()->create());
 
-    $thread = Thread::factory()->create();
+    $thread = create(Thread::class);
 
-    $reply = Reply::factory()->make();
+    $reply = make(Reply::class);
 
     $this->post($thread->path() . '/replies', [
         'body' => $reply->body

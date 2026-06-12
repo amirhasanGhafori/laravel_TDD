@@ -2,4 +2,6 @@
     <p class="text-base leading-7 text-gray-700">
         {{ $reply->body }}
     </p>
+
+    
 </div>

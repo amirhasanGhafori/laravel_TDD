@@ -2,9 +2,10 @@
     <div class="max-w-3xl mx-auto mt-10 space-y-6">
         {{-- Thread Card --}}
         <div class="rounded-2xl bg-slate-800 p-6 shadow-lg border border-slate-700">
-            <h1 class="text-2xl font-bold text-white leading-relaxed">
+            <h1 class="text-4xl font-bold text-white leading-relaxed">
                 {{ $thread->title }}
             </h1>
+            <p class="text-white">{{ $thread->body }}</p>
         </div>
 
         {{-- Replies Section --}}

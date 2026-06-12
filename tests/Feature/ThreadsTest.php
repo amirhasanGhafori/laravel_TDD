@@ -23,7 +23,7 @@ test('a_user_browes_threads', function () {
 
 
 test('can_view_single_thread', function () {
-    $response = $this->get('/thread/' . $this->thread->id);
+    $response = $this->get($this->thread->path());
     $response->assertSee($this->thread->title);
 });
 
@@ -32,6 +32,6 @@ test('can_see_replies_thread_page', function () {
     $reply = Reply::factory()->create([
         'thread_id' => $this->thread->id
     ]);
-    $response = $this->get('/thread/' . $this->thread->id);
+    $response = $this->get($this->thread->path());
     $response->assertSee($reply->body);
 });
