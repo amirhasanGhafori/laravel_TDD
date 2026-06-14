@@ -40,3 +40,12 @@ test('an_authenticated_user_may_participate_in_forum_threads', function () {
     $this->get($thread->path())
         ->assertSee($reply->body);
 });
+
+
+test('a_reply_requires_a_body',function(){
+    $this->signIn();
+    $thread = create(Thread::class);
+    $reply = make(Reply::class,['body'=>null]);
+    $this->post($thread->path() . '/replies',$reply->toArray())->assertSessionHasErrors('body');
+
+});

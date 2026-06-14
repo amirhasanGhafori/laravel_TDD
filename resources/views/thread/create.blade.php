@@ -17,6 +17,15 @@
                 @enderror
             </div>
 
+
+
+            <select name="channels" id="">
+                @foreach ($channels as $channel)
+                    <option value="{{ $channel->id }}">{{ $channel->name }}</option>
+                @endforeach
+            </select>
+
+
             <!-- Body Field -->
             <div class="mb-6">
                 <label for="body" class="block text-gray-700 text-sm font-bold mb-2">متن موضوع:</label>
@@ -38,5 +47,16 @@
 
             </div>
         </form>
+
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </div>
 @endcomponent

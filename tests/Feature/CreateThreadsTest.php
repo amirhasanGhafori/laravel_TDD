@@ -21,8 +21,8 @@ test('guests_cannot_see_the_create_threads', function () {
 
 test('an_authenticated_user_can_create_new_forum_threads', function () {
     $this->signIn();
-    $thread = create(Thread::class);
-    $this->post('/threads', $thread->toArray());
+    $thread = make(Thread::class);
+    $response = $this->post('/threads', $thread->toArray());
 
 
 
@@ -32,7 +32,7 @@ test('an_authenticated_user_can_create_new_forum_threads', function () {
         'user_id' => auth()->id()
     ]);
 
-    $this->get($thread->path())->assertSee($thread->title);
+    $this->get($response->headers->get('Location'))->assertSee($thread->title);
 });
 
 
@@ -40,4 +40,19 @@ test('an_authenticated_user_can_create_new_forum_threads', function () {
 test('a_thread_blongTo_a_channel',function(){
     $thread = create(Thread::class);
     $this->assertInstanceOf(Channel::class,$thread->channel);
+});
+
+
+
+test('a_thread_requires_a_title',function(){
+    $this->signIn();
+    $thread = make(Thread::class,['title'=>null,'body'=>null]);
+    $this->post('/threads',$thread->toArray())->assertSessionHasErrors('title');
+});
+
+
+test('a_thread_requires_a_channel_id',function(){
+    $this->signIn();
+    $thread = make(Thread::class,['channel_id'=>null]);
+    $this->post('/threads',$thread->toArray())->assertSessionHasErrors('channel_id');
 });

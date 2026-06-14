@@ -9,12 +9,21 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/threads',[ThreadController::class,'index'])->name('threads');
-Route::get('/threads/{channel}/{thread}',[ThreadController::class, 'details'])->name('thread.details');
 Route::get('/threads/create',[ThreadController::class, 'create'])->name('thread.create')->middleware('auth');
+Route::get('/threads',[ThreadController::class,'index'])->name('threads');
+Route::get('/threads/{channel}',[ThreadController::class, 'index']);
+
+Route::get('/threads/{channel}/{thread}',[ThreadController::class, 'details'])->name('thread.details');
 Route::post('/threads',[ThreadController::class,'store'])->middleware('auth');
 
 Route::post('/threads/{channel}/{thread}/replies',[ReplyController::class, 'store'])->middleware('auth');
+
+
+
+
+
+
+
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

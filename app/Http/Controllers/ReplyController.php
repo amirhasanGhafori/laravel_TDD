@@ -9,7 +9,13 @@ use Illuminate\Support\Facades\Log;
 class ReplyController extends Controller
 {
     public function store($channel , Thread $thread){
-        Log::info($thread);
+
+        
+        request()->validate([
+            'body'=>'required'
+        ]);
+
+
         $thread->addReply([
             'body'=>request('body'),
             'user_id'=>auth()->id(),

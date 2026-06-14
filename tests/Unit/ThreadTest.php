@@ -42,3 +42,13 @@ test('a_thread_can_make_a_string_path', function () {
         $thread->path()
     );
 });
+
+
+test('a_user_filter_thread_by_any_username',function(){
+    $this->signIn(create(User::class,['name'=>'amirhasan']));
+
+    $threadByAmirhasan = create(Thread::class,['user_id'=>auth()->id()]);
+    $threadNotByAmirhasan = create(Thread::class);
+
+    $this->get('/threads?by=amirhasan')->assertSee($threadByAmirhasan->title)->assertDontSee($threadNotByAmirhasan->title);
+});
