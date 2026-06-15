@@ -16,6 +16,7 @@ class ThreadController extends Controller
     public function index(Channel $channel, ThreadFilters $filters)
     {
         $threads = $this->getThreads($channel, $filters);
+        dd($threads);
         return view('threads', ['threads' => $threads]);
     }
 
