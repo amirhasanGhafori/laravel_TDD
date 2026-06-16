@@ -10,6 +10,8 @@
                     <a href="{{ $item->path() }}" class="text-lg font-medium text-gray-700">
                         {{ $item->title }}
                     </a>
+
+                    <span>{{ $item->replies_count }}</span>
                     
                 </div>
             @endforeach

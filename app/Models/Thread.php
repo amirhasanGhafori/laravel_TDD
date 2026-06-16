@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Schema\Builder;
 
 class Thread extends Model
 {
@@ -42,7 +44,7 @@ class Thread extends Model
         $this->replies()->create($reply);
     }
 
-    public function scopeFilter($query,$filters){
+    public function scopeFilter($query,ThreadFilters $filters){
         return $filters->apply($query);
     }
 }

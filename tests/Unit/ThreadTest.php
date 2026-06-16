@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Channel;
+use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -44,11 +45,29 @@ test('a_thread_can_make_a_string_path', function () {
 });
 
 
-test('a_user_filter_thread_by_any_username',function(){
-    $this->signIn(create(User::class,['name'=>'amirhasan']));
+test('a_user_filter_thread_by_any_username', function () {
+    $this->signIn(create(User::class, ['name' => 'amirhasan']));
 
-    $threadByAmirhasan = create(Thread::class,['user_id'=>auth()->id()]);
+    $threadByAmirhasan = create(Thread::class, ['user_id' => auth()->id()]);
     $threadNotByAmirhasan = create(Thread::class);
 
     $this->get('/threads?by=amirhasan')->assertSee($threadByAmirhasan->title)->assertDontSee($threadNotByAmirhasan->title);
+});
+
+
+test('a_user_can_filter_threads_by_popularity', function () {
+
+
+    $threadWithTwoReplies = create(Thread::class);
+    create(Reply::class, ['thread_id' => $threadWithTwoReplies->id], 2);
+
+    $threadWithThreeReplies = create(Thread::class);
+    create(Reply::class, ['thread_id' => $threadWithThreeReplies->id], 3);
+
+
+    $threadWithNoReplies = $this->thread;
+
+    $response = $this->getJson('threads?popular=1')->json();
+
+    $this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
 });
